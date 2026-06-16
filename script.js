@@ -1,7 +1,7 @@
-// TV Stream Configuration (Hidden)
+// TV Stream Configuration
 const streamConfig = {
-    // Obfuscated stream URL - hidden from plain sight
-    url: atob('aHR0cHM6Ly90di5lYm94LmxpdmUv')
+    // Direct stream URL - embedded securely
+    url: 'https://tv.ebox.live/'
 };
 
 // Initialize TV Player
@@ -15,43 +15,20 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializePlayer() {
     const playerContainer = document.getElementById('tv-player');
     
-    // Create hidden iframe with sandbox
+    // Create iframe with sandbox for security
     const iframe = document.createElement('iframe');
     iframe.src = streamConfig.url;
-    iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-presentation allow-pointer-lock');
+    iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-presentation allow-pointer-lock allow-forms');
     iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen');
-    iframe.style.display = 'none';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.borderRadius = '0';
     
-    // Clear loading message
+    // Clear loading message after iframe is ready
     setTimeout(() => {
         playerContainer.innerHTML = '';
-        
-        // Create a proxy div
-        const proxyDiv = document.createElement('div');
-        proxyDiv.style.width = '100%';
-        proxyDiv.style.height = '100%';
-        proxyDiv.style.backgroundColor = '#000';
-        proxyDiv.style.display = 'flex';
-        proxyDiv.style.alignItems = 'center';
-        proxyDiv.style.justifyContent = 'center';
-        proxyDiv.style.position = 'relative';
-        
-        // Add iframe to proxy
-        proxyDiv.appendChild(iframe);
-        
-        // Create visible overlay iframe
-        const overlayIframe = document.createElement('iframe');
-        overlayIframe.src = streamConfig.url;
-        overlayIframe.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-presentation allow-pointer-lock');
-        overlayIframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen');
-        overlayIframe.style.width = '100%';
-        overlayIframe.style.height = '100%';
-        overlayIframe.style.border = 'none';
-        overlayIframe.style.borderRadius = '0';
-        
-        playerContainer.appendChild(overlayIframe);
-        
-        // Show "Now Playing" indicator
+        playerContainer.appendChild(iframe);
         console.log('🎬 Live TV Stream Initialized');
     }, 500);
 }
@@ -60,17 +37,19 @@ function setupFullscreen() {
     const fullscreenBtn = document.getElementById('fullscreen-btn');
     const playerContainer = document.getElementById('tv-player');
     
-    fullscreenBtn.addEventListener('click', function() {
-        if (playerContainer.requestFullscreen) {
-            playerContainer.requestFullscreen();
-        } else if (playerContainer.webkitRequestFullscreen) {
-            playerContainer.webkitRequestFullscreen();
-        } else if (playerContainer.mozRequestFullScreen) {
-            playerContainer.mozRequestFullScreen();
-        } else if (playerContainer.msRequestFullscreen) {
-            playerContainer.msRequestFullscreen();
-        }
-    });
+    if (fullscreenBtn) {
+        fullscreenBtn.addEventListener('click', function() {
+            if (playerContainer.requestFullscreen) {
+                playerContainer.requestFullscreen();
+            } else if (playerContainer.webkitRequestFullscreen) {
+                playerContainer.webkitRequestFullscreen();
+            } else if (playerContainer.mozRequestFullScreen) {
+                playerContainer.mozRequestFullScreen();
+            } else if (playerContainer.msRequestFullscreen) {
+                playerContainer.msRequestFullscreen();
+            }
+        });
+    }
 }
 
 function setupNavigation() {
@@ -102,34 +81,20 @@ function setupHamburger() {
     if (hamburger) {
         hamburger.addEventListener('click', function() {
             navMenu.classList.toggle('active');
+            
+            // Toggle hamburger animation
+            const spans = hamburger.querySelectorAll('span');
+            if (navMenu.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(10px, 10px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(7px, -7px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
         });
     }
 }
 
-// Prevent developer tools detection (optional)
-// This won't stop determined users, but adds a layer of obfuscation
-(function() {
-    let devtools = { open: false };
-    
-    const threshold = 160;
-    setInterval(function() {
-        if (window.outerHeight - window.innerHeight > threshold ||
-            window.outerWidth - window.innerWidth > threshold) {
-            if (!devtools.open) {
-                devtools.open = true;
-                // Optional: could redirect or show message
-            }
-        } else {
-            devtools.open = false;
-        }
-    }, 500);
-})();
-
-// Security headers for API calls (if needed)
-const securityHeaders = {
-    'X-Requested-With': 'XMLHttpRequest',
-    'Referrer-Policy': 'no-referrer'
-};
-
-console.log('%c🔒 Secure Live TV Stream', 'color: #667eea; font-size: 14px; font-weight: bold;');
-console.log('%cStream URL is protected and encoded', 'color: #764ba2; font-size: 12px;');
+console.log('%c🔒 Live TV Stream Player', 'color: #667eea; font-size: 14px; font-weight: bold;');
