@@ -1,36 +1,17 @@
 const video = document.getElementById("video");
-const playBtn = document.getElementById("playBtn");
-const streamUrl = document.getElementById("streamUrl");
-const channelRow = document.getElementById("channelRow");
-const playlistFile = document.getElementById("playlistFile");
-const searchBox = document.getElementById("searchBox");
+const channelsDiv = document.getElementById("channels");
 
 let hls;
 
-// ডিফল্ট চ্যানেল
-const channels = [
-    {
-        name: "Demo TV",
-        logo: "https://upload.wikimedia.org/wikipedia/commons/2/2b/TV_icon.svg",
-        url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-    }
-];
-
-// ভিডিও প্লে ফাংশন
+// Stream চালানো
 function playStream(url){
+
+    if(!url) return;
 
     localStorage.setItem(
-        "lastStream", url
+        "lastStream",
+        url
     );
-
-    // বাকি কোড
-}
-function playStream(url){
-
-    if(!url){
-        alert("Stream URL দিন");
-        return;
-    }
 
     if(hls){
         hls.destroy();
@@ -44,172 +25,203 @@ function playStream(url){
 
         hls.attachMedia(video);
 
-        hls.on(Hls.Events.MANIFEST_PARSED, function () {
-            video.play();
-        });
+        hls.on(
+            Hls.Events.MANIFEST_PARSED,
+            function(){
+                video.play();
+            }
+        );
 
-    }else if(video.canPlayType('application/vnd.apple.mpegurl')){
+    }else{
 
         video.src = url;
         video.play();
 
-    }else{
-
-        alert("Browser HLS support করে না");
     }
 }
 
-// Play বাটন
-playBtn.addEventListener("click", () => {
-    playStream(streamUrl.value.trim());
-});
+// URL ইনপুট থেকে Play
+function playInput(){
 
-// চ্যানেল দেখানো
-function renderChannels(){
+    const url =
+        document.getElementById("url")
+        .value.trim();
 
-    channelRow.innerHTML = "";
+    if(!url) return;
 
-    channels.forEach(channel => {
+    playStream(url);
 
-        const card = document.createElement("div");
-        card.className = "channel-card";
+    let saved =
+        JSON.parse(
+            localStorage.getItem(
+                "savedLinks"
+            ) || "[]"
+        );
+
+    if(!saved.includes(url)){
+
+        saved.push(url);
+
+        localStorage.setItem(
+            "savedLinks",
+            JSON.stringify(saved)
+        );
+    }
+
+    renderSaved();
+
+}
+
+// Saved Card দেখানো
+function renderSaved(){
+
+    const saved =
+        JSON.parse(
+            localStorage.getItem(
+                "savedLinks"
+            ) || "[]"
+        );
+
+    channelsDiv.innerHTML = "";
+
+    saved.forEach(
+        (url,index)=>{
+
+        const card =
+            document.createElement(
+                "div"
+            );
+
+        card.className =
+            "channel";
 
         card.innerHTML = `
-            <img src="${channel.logo}" alt="${channel.name}">
-            <span>${channel.name}</span>
+            <img src="https://cdn-icons-png.flaticon.com/512/1179/1179069.png">
+
+            <p>Stream ${index+1}</p>
+
+            <button
+            onclick="
+            event.stopPropagation();
+            deleteLink(${index})
+            ">
+            ❌
+            </button>
         `;
 
-        card.onclick = () => {
-            playStream(channel.url);
+        card.onclick = ()=>{
+
+            playStream(url);
+
         };
 
-        channelRow.appendChild(card);
+        channelsDiv
+            .appendChild(card);
+
     });
+
 }
 
-renderChannels();
+// Delete Card
+function deleteLink(index){
 
-// M3U Playlist Upload
-playlistFile.addEventListener("change", function(){
-
-    const file = this.files[0];
-
-    if(!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = function(e){
-
-        const text = e.target.result;
-
-        parseM3U(text);
-    };
-
-    reader.readAsText(file);
-});
-
-// M3U Parser
-function parseM3U(text){
-
-    const lines = text.split("\n");
-
-    for(let i = 0; i < lines.length; i++){
-
-        if(lines[i].startsWith("#EXTINF")){
-
-            let name = lines[i].split(",")[1] || "Unknown";
-
-            let url = lines[i + 1]?.trim();
-
-            if(url && url.startsWith("http")){
-
-                channels.push({
-                    name: name,
-                    logo: "https://upload.wikimedia.org/wikipedia/commons/2/2b/TV_icon.svg",
-                    url: url
-                });
-            }
-        }
-    }
-
-    renderChannels();
-
-    alert("Playlist Loaded!");
-}
-window.addEventListener(
-    "load",
-    () => {
-
-        const last =
+    let saved =
+        JSON.parse(
             localStorage.getItem(
-                "lastStream"
-            );
+                "savedLinks"
+            ) || "[]"
+        );
 
-        if(last){
-            playStream(last);
-        }
+    saved.splice(index,1);
 
-    }
-);
-searchBox.addEventListener(
-    "input",
-    () => {
-
-        const q =
-            searchBox.value
-            .toLowerCase();
-
-        const cards =
-            document.querySelectorAll(
-                ".channel-card"
-            );
-
-        cards.forEach(card => {
-
-            const name =
-                card.innerText
-                .toLowerCase();
-
-            card.style.display =
-                name.includes(q)
-                ? "block"
-                : "none";
-        });
-
-    }
-);
-const pipBtn =
-    document.getElementById(
-        "pipBtn"
+    localStorage.setItem(
+        "savedLinks",
+        JSON.stringify(saved)
     );
 
-pipBtn.addEventListener(
-    "click",
-    async () => {
+    renderSaved();
 
-        if(
-            document
-            .pictureInPictureElement
-        ){
-            await document
-            .exitPictureInPicture();
-        }else{
-            await video
-            .requestPictureInPicture();
-        }
+}
+
+// Picture in Picture
+async function togglePip(){
+
+    if(
+        document
+        .pictureInPictureElement
+    ){
+
+        await document
+        .exitPictureInPicture();
+
+    }else{
+
+        await video
+        .requestPictureInPicture();
 
     }
-);
-const fullscreenBtn =
-    document.getElementById(
-        "fullscreenBtn"
-    );
 
-fullscreenBtn.addEventListener(
-    "click",
-    () => {
+}
+
+// Fullscreen
+function fullscreen(){
+
+    if(
+        video.requestFullscreen
+    ){
 
         video.requestFullscreen();
 
     }
+
+}
+
+// Search
+document
+.getElementById("search")
+.addEventListener(
+    "input",
+    function(){
+
+        const q =
+            this.value
+            .toLowerCase();
+
+        document
+        .querySelectorAll(
+            ".channel"
+        )
+        .forEach(card=>{
+
+            card.style.display =
+
+            card.innerText
+            .toLowerCase()
+            .includes(q)
+
+            ? "block"
+
+            : "none";
+
+        });
+
+    }
 );
+
+// পেজ লোড
+window.onload = ()=>{
+
+    renderSaved();
+
+    const last =
+        localStorage.getItem(
+            "lastStream"
+        );
+
+    if(last){
+
+        playStream(last);
+
+    }
+
+};
