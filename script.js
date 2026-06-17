@@ -79,85 +79,68 @@ function playInput(){
     document.getElementById("url").value = "";
 }
 
-// Card দেখানো
 function renderCards(){
 
-    card.innerHTML = `
-    <button class="menu-btn">⋮</button>
+    cards.innerHTML = "";
 
-    <div class="card-icon">📺</div>
+    let streams = JSON.parse(
+        localStorage.getItem("streams") || "[]"
+    );
 
-    <div class="card-title">
-        Stream ${index+1}
-    </div>
+    streams.forEach((url, index) => {
 
-    <div class="dropdown">
-        <button onclick="playFromMenu(${index}, event)">
-            ▶ Play
-        </button>
+        const card = document.createElement("div");
+        card.className = "card";
 
-        <button onclick="deleteStream(${index}, event)">
-            🗑 Delete
-        </button>
-    </div>
-`;
+        card.innerHTML = `
+            <button class="menu-btn">⋮</button>
 
-        // কার্ডে ক্লিক করলে Play
-        card.onclick = ()=>{
+            <div class="card-icon">📺</div>
 
+            <div class="card-title">
+                Stream ${index + 1}
+            </div>
+
+            <div class="dropdown">
+                <button onclick="playFromMenu(${index}, event)">
+                    ▶ Play
+                </button>
+
+                <button onclick="deleteStream(${index}, event)">
+                    🗑 Delete
+                </button>
+            </div>
+        `;
+
+        card.onclick = () => {
             playStream(url);
-
         };
 
-        // Menu Button
-        const menu =
-            card.querySelector(
-                ".menu-btn"
-            );
+        const menu = card.querySelector(".menu-btn");
+        const dropdown = card.querySelector(".dropdown");
 
-        const dropdown =
-            card.querySelector(
-                ".dropdown"
-            );
-
-        menu.onclick = (e)=>{
+        menu.onclick = (e) => {
 
             e.stopPropagation();
 
-            document
-            .querySelectorAll(
-                ".dropdown"
-            )
-            .forEach(d=>{
-
-                if(
-                    d !== dropdown
-                ){
-                    d.style.display =
-                        "none";
+            document.querySelectorAll(".dropdown")
+            .forEach(d => {
+                if(d !== dropdown){
+                    d.style.display = "none";
                 }
-
             });
 
             dropdown.style.display =
-
-                dropdown.style.display
-                === "block"
-
+                dropdown.style.display === "block"
                 ? "none"
-
                 : "block";
-
         };
 
-        cards.appendChild(
-            card
-        );
+        cards.appendChild(card);
 
     });
 
 }
-
 // Play from Menu
 function playFromMenu(index, e){
 
