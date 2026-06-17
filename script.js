@@ -1,9 +1,9 @@
 const video = document.getElementById("video");
-const channelsDiv = document.getElementById("channels");
+const cards = document.getElementById("cards");
 
 let hls;
 
-// Stream চালানো
+// Stream চালানোর ফাংশন
 function playStream(url){
 
     if(!url) return;
@@ -40,51 +40,57 @@ function playStream(url){
     }
 }
 
-// URL ইনপুট থেকে Play
+// Play Button
 function playInput(){
 
     const url =
-        document.getElementById("url")
-        .value.trim();
+        document
+        .getElementById("url")
+        .value
+        .trim();
 
     if(!url) return;
 
     playStream(url);
 
-    let saved =
+    let streams =
         JSON.parse(
             localStorage.getItem(
-                "savedLinks"
+                "streams"
             ) || "[]"
         );
 
-    if(!saved.includes(url)){
+    // Duplicate URL না যোগ করা
+    if(
+        !streams.includes(url)
+    ){
 
-        saved.push(url);
+        streams.push(url);
 
         localStorage.setItem(
-            "savedLinks",
-            JSON.stringify(saved)
+            "streams",
+            JSON.stringify(
+                streams
+            )
         );
     }
 
-    renderSaved();
-
+    renderCards();
 }
 
-// Saved Card দেখানো
-function renderSaved(){
+// Card দেখানো
+function renderCards(){
 
-    const saved =
+    cards.innerHTML = "";
+
+    let streams =
         JSON.parse(
             localStorage.getItem(
-                "savedLinks"
+                "streams"
             ) || "[]"
         );
 
-    channelsDiv.innerHTML = "";
-
-    saved.forEach(
+    streams.forEach(
         (url,index)=>{
 
         const card =
@@ -93,125 +99,146 @@ function renderSaved(){
             );
 
         card.className =
-            "channel";
+            "card";
 
         card.innerHTML = `
-            <img src="https://cdn-icons-png.flaticon.com/512/1179/1179069.png">
-
-            <p>Stream ${index+1}</p>
-
             <button
-            onclick="
-            event.stopPropagation();
-            deleteLink(${index})
-            ">
-            ❌
+                class="menu-btn">
+                ⋮
             </button>
+
+            <div class="card-icon">
+                📺
+            </div>
+
+            <div class="card-title">
+                Stream ${index+1}
+            </div>
+
+            <div class="dropdown">
+
+                <button
+                    onclick="
+                    playFromMenu(
+                    ${index}
+                    )">
+                    ▶ Play
+                </button>
+
+                <button
+                    onclick="
+                    deleteStream(
+                    ${index}
+                    )">
+                    🗑 Delete
+                </button>
+
+            </div>
         `;
 
+        // কার্ডে ক্লিক করলে Play
         card.onclick = ()=>{
 
             playStream(url);
 
         };
 
-        channelsDiv
-            .appendChild(card);
+        // Menu Button
+        const menu =
+            card.querySelector(
+                ".menu-btn"
+            );
+
+        const dropdown =
+            card.querySelector(
+                ".dropdown"
+            );
+
+        menu.onclick = (e)=>{
+
+            e.stopPropagation();
+
+            document
+            .querySelectorAll(
+                ".dropdown"
+            )
+            .forEach(d=>{
+
+                if(
+                    d !== dropdown
+                ){
+                    d.style.display =
+                        "none";
+                }
+
+            });
+
+            dropdown.style.display =
+
+                dropdown.style.display
+                === "block"
+
+                ? "none"
+
+                : "block";
+
+        };
+
+        cards.appendChild(
+            card
+        );
 
     });
 
 }
 
-// Delete Card
-function deleteLink(index){
+// Play from Menu
+function playFromMenu(index){
 
-    let saved =
+    event.stopPropagation();
+
+    let streams =
         JSON.parse(
             localStorage.getItem(
-                "savedLinks"
+                "streams"
             ) || "[]"
         );
 
-    saved.splice(index,1);
+    playStream(
+        streams[index]
+    );
+}
 
-    localStorage.setItem(
-        "savedLinks",
-        JSON.stringify(saved)
+// Delete Stream
+function deleteStream(index){
+
+    event.stopPropagation();
+
+    let streams =
+        JSON.parse(
+            localStorage.getItem(
+                "streams"
+            ) || "[]"
+        );
+
+    streams.splice(
+        index,1
     );
 
-    renderSaved();
-
-}
-
-// Picture in Picture
-async function togglePip(){
-
-    if(
-        document
-        .pictureInPictureElement
-    ){
-
-        await document
-        .exitPictureInPicture();
-
-    }else{
-
-        await video
-        .requestPictureInPicture();
-
-    }
-
-}
-
-// Fullscreen
-function fullscreen(){
-
-    if(
-        video.requestFullscreen
-    ){
-
-        video.requestFullscreen();
-
-    }
-
-}
-
-// Search
-document
-.getElementById("search")
-.addEventListener(
-    "input",
-    function(){
-
-        const q =
-            this.value
-            .toLowerCase();
-
-        document
-        .querySelectorAll(
-            ".channel"
+    localStorage.setItem(
+        "streams",
+        JSON.stringify(
+            streams
         )
-        .forEach(card=>{
+    );
 
-            card.style.display =
+    renderCards();
+}
 
-            card.innerText
-            .toLowerCase()
-            .includes(q)
-
-            ? "block"
-
-            : "none";
-
-        });
-
-    }
-);
-
-// পেজ লোড
+// Page Load
 window.onload = ()=>{
 
-    renderSaved();
+    renderCards();
 
     const last =
         localStorage.getItem(
@@ -225,3 +252,22 @@ window.onload = ()=>{
     }
 
 };
+
+// বাইরে ক্লিক করলে Menu বন্ধ
+document.addEventListener(
+    "click",
+    ()=>{
+
+        document
+        .querySelectorAll(
+            ".dropdown"
+        )
+        .forEach(d=>{
+
+            d.style.display =
+                "none";
+
+        });
+
+    }
+);
