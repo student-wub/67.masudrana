@@ -257,3 +257,47 @@ toggle.onclick = ()=>{
     : "block";
 
 };
+const searchBtn =
+    document.getElementById(
+        "searchBtn"
+    );
+
+const urlBox =
+    document.querySelector(
+        ".url-box"
+    );
+
+searchBtn.onclick = ()=>{
+
+    urlBox.style.display =
+
+        urlBox.style.display
+        === "flex"
+
+        ? "none"
+
+        : "flex";
+
+};
+const toggle =
+    document.getElementById(
+        "toggleMenu"
+    );
+
+const menuArea =
+    document.getElementById(
+        "menuArea"
+    );
+
+toggle.onclick = ()=>{
+
+    menuArea.style.display =
+
+        menuArea.style.display
+        === "block"
+
+        ? "none"
+
+        : "block";
+
+};
