@@ -235,3 +235,25 @@ document
 
     }
 );
+const toggle =
+    document.getElementById(
+        "toggleMenu"
+    );
+
+const menuArea =
+    document.getElementById(
+        "menuArea"
+    );
+
+toggle.onclick = ()=>{
+
+    menuArea.style.display =
+
+    menuArea.style.display
+    === "block"
+
+    ? "none"
+
+    : "block";
+
+};
