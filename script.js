@@ -76,66 +76,31 @@ function playInput(){
     }
 
     renderCards();
+    document.getElementById("url").value = "";
 }
 
 // Card দেখানো
 function renderCards(){
 
-    cards.innerHTML = "";
+    card.innerHTML = `
+    <button class="menu-btn">⋮</button>
 
-    let streams =
-        JSON.parse(
-            localStorage.getItem(
-                "streams"
-            ) || "[]"
-        );
+    <div class="card-icon">📺</div>
 
-    streams.forEach(
-        (url,index)=>{
+    <div class="card-title">
+        Stream ${index+1}
+    </div>
 
-        const card =
-            document.createElement(
-                "div"
-            );
+    <div class="dropdown">
+        <button onclick="playFromMenu(${index}, event)">
+            ▶ Play
+        </button>
 
-        card.className =
-            "card";
-
-        card.innerHTML = `
-            <button
-                class="menu-btn">
-                ⋮
-            </button>
-
-            <div class="card-icon">
-                📺
-            </div>
-
-            <div class="card-title">
-                Stream ${index+1}
-            </div>
-
-            <div class="dropdown">
-
-                <button
-                    onclick="
-                    playFromMenu(
-                    ${index},
-                    event
-                    )">
-                    ▶ Play
-                </button>
-
-                <button
-                    onclick="
-                    deleteStream(
-                    ${index}
-                    )">
-                    🗑 Delete
-                </button>
-
-            </div>
-        `;
+        <button onclick="deleteStream(${index}, event)">
+            🗑 Delete
+        </button>
+    </div>
+`;
 
         // কার্ডে ক্লিক করলে Play
         card.onclick = ()=>{
