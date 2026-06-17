@@ -33,10 +33,9 @@ body{
 }
 
 .player-box{
-    flex:1;
-    background:#000;
-    border-radius:15px;
+    height:60vh;
     overflow:hidden;
+    border-radius:15px;
 }
 
 video{
@@ -95,28 +94,32 @@ video{
 }
 
 .card{
-    min-width:140px;
+    width:70px;
+    min-width:70px;
+    height:70px;
+
     background:#171b26;
     border:1px solid #2a2f3d;
-    border-radius:14px;
-    padding:15px;
-    cursor:pointer;
-    position:relative;
-    flex-shrink:0;
-    transition:.2s;
-}
+    border-radius:10px;
 
+    position:relative;
+    cursor:pointer;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
 .card:hover{
     transform:translateY(-3px);
 }
 
 .card-icon{
-    font-size:24px;
+    font-size:20px;
 }
 .card-title{
-    text-align:center;
-    margin-top:10px;
-    font-size:12px;
+    font-size:10px;
+    margin-top:4px;
 }
 
 .menu-btn{
