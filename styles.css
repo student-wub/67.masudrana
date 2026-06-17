@@ -12,17 +12,6 @@ body{
     overflow:hidden;
 }
 
-.header{
-    padding:18px;
-    text-align:center;
-    background:#171b26;
-    border-bottom:1px solid #2a2f3d;
-}
-
-.header h1{
-    font-size:28px;
-}
-
 .container{
     width:100%;
     height:100vh;
@@ -34,7 +23,7 @@ body{
 
 .player-box{
     position:relative;
-    height:70vh;
+    height:78vh;
     overflow:hidden;
     border-radius:15px;
     background:#000;
@@ -97,9 +86,9 @@ video{
 }
 
 .card{
-    width:70px;
-    min-width:70px;
-    height:70px;
+    width:60px;
+    min-width:60px;
+    height:60px;
 
     background:#171b26;
     border:1px solid #2a2f3d;
@@ -198,7 +187,7 @@ video{
 }
 .overlay-menu{
     position:absolute;
-    top:15px;
+    bottom:15px;
     right:15px;
 
     display:flex;
@@ -223,9 +212,5 @@ video{
 }
 
 .url-box{
-    display:none;
-}
-
-#menuArea{
     display:none;
 }
