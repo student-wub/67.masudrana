@@ -1,9 +1,9 @@
 const video = document.getElementById("video");
 const cards = document.getElementById("cards");
 
-let hls;
+let hls = null;
 
-// Stream চালানোর ফাংশন
+// Stream Play
 function playStream(url){
 
     if(!url) return;
@@ -15,6 +15,7 @@ function playStream(url){
 
     if(hls){
         hls.destroy();
+        hls = null;
     }
 
     if(Hls.isSupported()){
@@ -27,17 +28,21 @@ function playStream(url){
 
         hls.on(
             Hls.Events.MANIFEST_PARSED,
-            function(){
-                video.play();
+            () => {
+                video.play()
+                .catch(()=>{});
             }
         );
 
     }else{
 
         video.src = url;
-        video.play();
+
+        video.play()
+        .catch(()=>{});
 
     }
+
 }
 
 // Play Button
@@ -60,7 +65,7 @@ function playInput(){
             ) || "[]"
         );
 
-    // Duplicate URL না যোগ করা
+    // Duplicate Block
     if(
         !streams.includes(url)
     ){
@@ -73,76 +78,132 @@ function playInput(){
                 streams
             )
         );
+
     }
 
     renderCards();
-    document.getElementById("url").value = "";
+
+    document
+    .getElementById("url")
+    .value = "";
+
 }
 
+// Card Render
 function renderCards(){
 
     cards.innerHTML = "";
 
-    let streams = JSON.parse(
-        localStorage.getItem("streams") || "[]"
-    );
+    let streams =
+        JSON.parse(
+            localStorage.getItem(
+                "streams"
+            ) || "[]"
+        );
 
-    streams.forEach((url, index) => {
+    streams.forEach(
+        (url,index)=>{
 
-        const card = document.createElement("div");
-        card.className = "card";
+        const card =
+            document.createElement(
+                "div"
+            );
+
+        card.className =
+            "card";
 
         card.innerHTML = `
-            <button class="menu-btn">⋮</button>
+            <button
+                class="menu-btn">
+                ⋮
+            </button>
 
-            <div class="card-icon">📺</div>
+            <div class="card-icon">
+                📺
+            </div>
 
             <div class="card-title">
-                Stream ${index + 1}
+                ${index+1}
             </div>
 
             <div class="dropdown">
-                <button onclick="playFromMenu(${index}, event)">
+
+                <button
+                    onclick="
+                    playFromMenu(
+                    ${index},
+                    event
+                    )">
                     ▶ Play
                 </button>
 
-                <button onclick="deleteStream(${index}, event)">
+                <button
+                    onclick="
+                    deleteStream(
+                    ${index},
+                    event
+                    )">
                     🗑 Delete
                 </button>
+
             </div>
         `;
 
-        card.onclick = () => {
+        card.onclick = ()=>{
+
             playStream(url);
+
         };
 
-        const menu = card.querySelector(".menu-btn");
-        const dropdown = card.querySelector(".dropdown");
+        const menu =
+            card.querySelector(
+                ".menu-btn"
+            );
 
-        menu.onclick = (e) => {
+        const dropdown =
+            card.querySelector(
+                ".dropdown"
+            );
+
+        menu.onclick = (e)=>{
 
             e.stopPropagation();
 
-            document.querySelectorAll(".dropdown")
-            .forEach(d => {
-                if(d !== dropdown){
-                    d.style.display = "none";
-                }
+            document
+            .querySelectorAll(
+                ".dropdown"
+            )
+            .forEach(d=>{
+
+                d.style.display =
+                    "none";
+
             });
 
             dropdown.style.display =
-                dropdown.style.display === "block"
+
+                dropdown.style.display
+                === "block"
+
                 ? "none"
+
                 : "block";
+
         };
 
-        cards.appendChild(card);
+        cards.appendChild(
+            card
+        );
 
     });
 
 }
-// Play from Menu
-function playFromMenu(index, e){
+
+// Play Menu
+function playFromMenu(
+    index,
+    e
+){
 
     e.stopPropagation();
 
@@ -156,10 +217,14 @@ function playFromMenu(index, e){
     playStream(
         streams[index]
     );
+
 }
 
 // Delete Stream
-function deleteStream(index, e){
+function deleteStream(
+    index,
+    e
+){
 
     e.stopPropagation();
 
@@ -170,7 +235,10 @@ function deleteStream(index, e){
             ) || "[]"
         );
 
-    streams.splice(index,1);
+    streams.splice(
+        index,
+        1
+    );
 
     localStorage.setItem(
         "streams",
@@ -179,10 +247,37 @@ function deleteStream(index, e){
         )
     );
 
+    if(
+        streams.length === 0
+    ){
+
+        localStorage.removeItem(
+            "lastStream"
+        );
+
+        if(hls){
+
+            hls.destroy();
+
+            hls = null;
+
+        }
+
+        video.pause();
+
+        video.removeAttribute(
+            "src"
+        );
+
+        video.load();
+
+    }
+
     renderCards();
+
 }
 
-// Page Load
+// Load Page
 window.onload = ()=>{
 
     renderCards();
@@ -200,7 +295,7 @@ window.onload = ()=>{
 
 };
 
-// বাইরে ক্লিক করলে Menu বন্ধ
+// Close Menu
 document.addEventListener(
     "click",
     ()=>{
@@ -218,6 +313,8 @@ document.addEventListener(
 
     }
 );
+
+// Enter Press
 document
 .getElementById("url")
 .addEventListener(
@@ -235,28 +332,8 @@ document
 
     }
 );
-const toggle =
-    document.getElementById(
-        "toggleMenu"
-    );
 
-const menuArea =
-    document.getElementById(
-        "menuArea"
-    );
-
-toggle.onclick = ()=>{
-
-    menuArea.style.display =
-
-    menuArea.style.display
-    === "block"
-
-    ? "none"
-
-    : "block";
-
-};
+// Search Button
 const searchBtn =
     document.getElementById(
         "searchBtn"
@@ -269,16 +346,28 @@ const urlBox =
 
 searchBtn.onclick = ()=>{
 
-    urlBox.style.display =
-
+    if(
         urlBox.style.display
         === "flex"
+    ){
 
-        ? "none"
+        urlBox.style.display =
+            "none";
 
-        : "flex";
+    }else{
+
+        urlBox.style.display =
+            "flex";
+
+        document
+        .getElementById("url")
+        .focus();
+
+    }
 
 };
+
+// Menu Button
 const toggle =
     document.getElementById(
         "toggleMenu"
