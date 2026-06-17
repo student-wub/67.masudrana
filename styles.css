@@ -8,6 +8,8 @@
 body{
     background:#0f1117;
     color:#fff;
+    height:100vh;
+    overflow:hidden;
 }
 
 .header{
@@ -23,21 +25,25 @@ body{
 
 .container{
     max-width:1200px;
+    height:calc(100vh - 80px);
     margin:auto;
     padding:15px;
+    display:flex;
+    flex-direction:column;
 }
 
 .player-box{
-    width:100%;
+    flex:1;
     background:#000;
     border-radius:15px;
     overflow:hidden;
-    box-shadow:0 10px 25px rgba(0,0,0,.4);
+    min-height:0;
 }
 
 video{
     width:100%;
-    aspect-ratio:16/9;
+    height:100%;
+    object-fit:contain;
     background:#000;
 }
 
@@ -75,9 +81,10 @@ video{
 .card-row{
     display:flex;
     gap:12px;
+    margin-top:15px;
     overflow-x:auto;
-    margin-top:20px;
-    padding-bottom:10px;
+    overflow-y:hidden;
+    padding-bottom:5px;
 }
 
 .card-row::-webkit-scrollbar{
@@ -168,7 +175,8 @@ video{
     }
 
     .card{
-        min-width:120px;
-    }
+    min-width:100px;
+    padding:12px;
+}
 
 }
