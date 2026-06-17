@@ -158,3 +158,13 @@ video{
         height: 50px;
     }
 }
+#searchBox{
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #222;
+    color: white;
+    outline: none;
+}
