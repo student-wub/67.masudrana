@@ -1,161 +1,174 @@
 *{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
 }
 
 body{
-    background: #121212;
-    color: white;
-    font-family: Arial, sans-serif;
+    background:#0f1117;
+    color:#fff;
 }
 
 .header{
-    background: #1e1e1e;
-    padding: 15px;
-    text-align: center;
-    border-bottom: 1px solid #333;
+    padding:18px;
+    text-align:center;
+    background:#171b26;
+    border-bottom:1px solid #2a2f3d;
 }
 
 .header h1{
-    font-size: 24px;
+    font-size:28px;
 }
 
 .container{
-    width: 95%;
-    max-width: 1200px;
-    margin: auto;
-    padding: 15px;
+    max-width:1200px;
+    margin:auto;
+    padding:15px;
 }
 
-.player-section{
-    width: 100%;
-    background: black;
-    border-radius: 12px;
-    overflow: hidden;
+.player-box{
+    width:100%;
+    background:#000;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(0,0,0,.4);
 }
 
 video{
-    width: 100%;
-    max-height: 70vh;
-    background: black;
+    width:100%;
+    aspect-ratio:16/9;
+    background:#000;
 }
 
-.stream-box{
-    margin-top: 15px;
-    display: flex;
-    gap: 10px;
+.url-box{
+    margin-top:15px;
+    display:flex;
+    gap:10px;
 }
 
-.stream-box input{
-    flex: 1;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    background: #222;
-    color: white;
-    outline: none;
+.url-box input{
+    flex:1;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#1b2030;
+    color:white;
+    outline:none;
+    font-size:15px;
 }
 
-.stream-box button{
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    background: #ff6b00;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
+.url-box button{
+    padding:14px 20px;
+    border:none;
+    border-radius:10px;
+    background:#3b82f6;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-.stream-box button:hover{
-    opacity: 0.9;
+.url-box button:hover{
+    opacity:.9;
 }
 
-.upload-box{
-    margin-top: 15px;
+.card-row{
+    display:flex;
+    gap:12px;
+    overflow-x:auto;
+    margin-top:20px;
+    padding-bottom:10px;
 }
 
-.upload-box input{
-    width: 100%;
-    padding: 10px;
-    background: #222;
-    color: white;
-    border-radius: 8px;
+.card-row::-webkit-scrollbar{
+    height:8px;
 }
 
-.channel-wrapper{
-    margin-top: 25px;
+.card-row::-webkit-scrollbar-thumb{
+    background:#2f3547;
+    border-radius:20px;
 }
 
-.channel-wrapper h2{
-    margin-bottom: 10px;
+.card{
+    min-width:140px;
+    background:#171b26;
+    border:1px solid #2a2f3d;
+    border-radius:14px;
+    padding:15px;
+    cursor:pointer;
+    position:relative;
+    flex-shrink:0;
+    transition:.2s;
 }
 
-.channel-row{
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    padding-bottom: 10px;
-    scrollbar-width: thin;
+.card:hover{
+    transform:translateY(-3px);
 }
 
-.channel-row::-webkit-scrollbar{
-    height: 8px;
+.card-icon{
+    font-size:32px;
+    text-align:center;
 }
 
-.channel-row::-webkit-scrollbar-thumb{
-    background: #555;
-    border-radius: 10px;
+.card-title{
+    text-align:center;
+    margin-top:10px;
+    font-size:14px;
 }
 
-.channel-card{
-    min-width: 100px;
-    background: #1f1f1f;
-    border-radius: 12px;
-    padding: 10px;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.3s;
-    flex-shrink: 0;
+.menu-btn{
+    position:absolute;
+    top:8px;
+    right:8px;
+    background:none;
+    border:none;
+    color:#fff;
+    font-size:20px;
+    cursor:pointer;
 }
 
-.channel-card:hover{
-    transform: scale(1.05);
-    background: #2a2a2a;
+.dropdown{
+    display:none;
+    position:absolute;
+    top:35px;
+    right:8px;
+    background:#22293a;
+    border-radius:10px;
+    overflow:hidden;
+    z-index:10;
+    min-width:100px;
 }
 
-.channel-card img{
-    width: 60px;
-    height: 60px;
-    object-fit: contain;
-    border-radius: 10px;
-    background: white;
-    padding: 5px;
+.dropdown button{
+    width:100%;
+    border:none;
+    background:none;
+    color:white;
+    padding:10px;
+    cursor:pointer;
+    text-align:left;
 }
 
-.channel-card span{
-    display: block;
-    margin-top: 8px;
-    font-size: 14px;
+.dropdown button:hover{
+    background:#31384d;
 }
 
-@media(max-width: 768px){
+@media(max-width:600px){
 
-    .stream-box{
-        flex-direction: column;
+    .header h1{
+        font-size:22px;
     }
 
-    .stream-box button{
-        width: 100%;
+    .url-box{
+        flex-direction:column;
     }
 
-    .channel-card{
-        min-width: 85px;
+    .url-box button{
+        width:100%;
     }
 
-    .channel-card img{
-        width: 50px;
-        height: 50px;
+    .card{
+        min-width:120px;
     }
+
 }
-
