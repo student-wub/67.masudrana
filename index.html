@@ -13,72 +13,51 @@
 
     <main class="container">
 
-        <!-- Video Player -->
         <div class="player-box">
-            <video id="video" controls autoplay playsinline></video>
+
+            <video id="video"
+                   controls
+                   autoplay
+                   playsinline>
+            </video>
+
             <div class="overlay-menu">
 
-    <button
-        class="overlay-btn"
-        id="searchBtn">
-        🔍
-    </button>
+                <button
+                    class="overlay-btn"
+                    id="searchBtn">
+                    🔍
+                </button>
 
-    <button
-        class="overlay-btn"
-        id="toggleMenu">
-        ▼
-    </button>
+                <button
+                    class="overlay-btn"
+                    id="toggleMenu">
+                    ▼
+                </button>
 
-</div>
-        </div>
-<button id="toggleMenu" class="toggle-menu">
-    ▼ Menu
-</button>
-
-<div class="url-box">
-
-    <input
-        type="text"
-        id="url"
-        placeholder="Paste M3U8 URL">
-
-    <button onclick="playInput()">
-        ▶ Play
-    </button>
-
-</div>
-
-<button id="toggleMenu"
-        class="toggle-menu">
-    ▼ Menu
-</button>
-
-<div id="menuArea">
-
-    <div id="cards"
-         class="card-row">
-    </div>
-
-</div>
-        <!-- URL Input -->
-        <div class="url-box">
-
-            <input
-                type="text"
-                id="url"
-                placeholder="Paste M3U8 URL">
-
-            <button onclick="playInput()">
-                ▶ Play
-            </button>
+            </div>
 
         </div>
 
-        <!-- Cards -->
         <div id="menuArea">
-        <div id="cards" class="card-row">
-           </div>
+
+            <div class="url-box">
+
+                <input
+                    type="text"
+                    id="url"
+                    placeholder="Paste M3U8 URL">
+
+                <button onclick="playInput()">
+                    ▶ Play
+                </button>
+
+            </div>
+
+            <div id="cards"
+                 class="card-row">
+            </div>
+
         </div>
 
     </main>
