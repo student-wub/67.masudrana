@@ -3,6 +3,7 @@ const playBtn = document.getElementById("playBtn");
 const streamUrl = document.getElementById("streamUrl");
 const channelRow = document.getElementById("channelRow");
 const playlistFile = document.getElementById("playlistFile");
+const searchBox = document.getElementById("searchBox");
 
 let hls;
 
@@ -16,6 +17,14 @@ const channels = [
 ];
 
 // ভিডিও প্লে ফাংশন
+function playStream(url){
+
+    localStorage.setItem(
+        "lastStream", url
+    );
+
+    // বাকি কোড
+}
 function playStream(url){
 
     if(!url){
@@ -127,3 +136,80 @@ function parseM3U(text){
 
     alert("Playlist Loaded!");
 }
+window.addEventListener(
+    "load",
+    () => {
+
+        const last =
+            localStorage.getItem(
+                "lastStream"
+            );
+
+        if(last){
+            playStream(last);
+        }
+
+    }
+);
+searchBox.addEventListener(
+    "input",
+    () => {
+
+        const q =
+            searchBox.value
+            .toLowerCase();
+
+        const cards =
+            document.querySelectorAll(
+                ".channel-card"
+            );
+
+        cards.forEach(card => {
+
+            const name =
+                card.innerText
+                .toLowerCase();
+
+            card.style.display =
+                name.includes(q)
+                ? "block"
+                : "none";
+        });
+
+    }
+);
+const pipBtn =
+    document.getElementById(
+        "pipBtn"
+    );
+
+pipBtn.addEventListener(
+    "click",
+    async () => {
+
+        if(
+            document
+            .pictureInPictureElement
+        ){
+            await document
+            .exitPictureInPicture();
+        }else{
+            await video
+            .requestPictureInPicture();
+        }
+
+    }
+);
+const fullscreenBtn =
+    document.getElementById(
+        "fullscreenBtn"
+    );
+
+fullscreenBtn.addEventListener(
+    "click",
+    () => {
+
+        video.requestFullscreen();
+
+    }
+);
