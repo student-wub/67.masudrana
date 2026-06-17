@@ -3,83 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live TV Streaming</title>
+    <title>Live Stream Player - VLC Style</title>
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">
-                <h1>Live TV</h1>
-                <p>Live Streaming</p>
+    <div class="container">
+        <header>
+            <h1>📡 Live Stream Player</h1>
+            <p class="subtitle">Paste your stream link and watch like VLC</p>
+        </header>
+
+        <div class="control-panel">
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    id="streamUrl" 
+                    class="stream-input"
+                    placeholder="Paste your HLS, DASH, or video link here... (e.g., https://example.com/stream.m3u8)"
+                    autocomplete="off"
+                >
+                <button id="playBtn" class="play-btn">▶ PLAY</button>
             </div>
-            <ul class="nav-menu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#player" class="nav-link">Watch Now</a></li>
+            <div class="url-examples">
+                <small>💡 Supports: HLS (.m3u8), DASH (.mpd), MP4, WebM, OGG</small>
+            </div>
+        </div>
+
+        <div class="player-wrapper">
+            <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="100%">
+                <p class="vjs-no-js">
+                    To view this video please enable JavaScript, and consider upgrading to a web browser that
+                    <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                </p>
+            </video>
+        </div>
+
+        <div class="info-panel">
+            <div class="status">
+                <span class="status-label">Status:</span>
+                <span id="statusText" class="status-value">Ready</span>
+            </div>
+            <div class="stream-info">
+                <div id="streamDetails"></div>
+            </div>
+        </div>
+
+        <div class="features">
+            <h3>Features</h3>
+            <ul>
+                <li>✓ Play HLS Live Streams</li>
+                <li>✓ DASH Streaming Support</li>
+                <li>✓ Direct MP4/WebM Videos</li>
+                <li>✓ Full Screen Mode</li>
+                <li>✓ Speed Control</li>
+                <li>✓ Volume Control</li>
+                <li>✓ Quality Selection (if available)</li>
+                <li>✓ Picture in Picture</li>
             </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
         </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Live TV Streaming</h1>
-            <p class="hero-subtitle">Watch Your Favorite Channels Live</p>
-            <p class="hero-description">Crystal clear streaming, anytime, anywhere</p>
-            <div class="hero-buttons">
-                <a href="#player" class="btn btn-primary">Start Watching</a>
-            </div>
+        <div class="footer">
+            <p>Made with ❤️ for streaming lovers</p>
         </div>
-        <div class="hero-image">
-            <div class="image-placeholder">
-                <i class="fas fa-tv"></i>
-            </div>
-        </div>
-    </section>
+    </div>
 
-    <!-- Player Section -->
-    <section id="player" class="player-section">
-        <div class="container">
-            <h2 class="section-title">Live Stream Player</h2>
-            <div class="player-container">
-                <div class="player-wrapper">
-                    <div id="tv-player" class="tv-player">
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            <p>Loading stream...</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="player-info">
-                    <h3>Now Playing</h3>
-                    <p>Live TV Stream</p>
-                    <button id="fullscreen-btn" class="btn btn-secondary">
-                        <i class="fas fa-expand"></i> Fullscreen
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 Live TV. All rights reserved.</p>
-            <div class="social-links">
-                <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
-                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
-                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-    </footer>
-
+    <script src="https://vjs.zencdn.net/7.20.3/video.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-http-streaming@2.16.1/dist/videojs-http-streaming.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
