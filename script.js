@@ -120,7 +120,8 @@ function renderCards(){
                 <button
                     onclick="
                     playFromMenu(
-                    ${index}
+                    ${index},
+                    event
                     )">
                     ▶ Play
                 </button>
@@ -193,9 +194,9 @@ function renderCards(){
 }
 
 // Play from Menu
-function playFromMenu(index){
+function playFromMenu(index, e){
 
-    event.stopPropagation();
+    e.stopPropagation();
 
     let streams =
         JSON.parse(
@@ -210,9 +211,9 @@ function playFromMenu(index){
 }
 
 // Delete Stream
-function deleteStream(index){
+function deleteStream(index, e){
 
-    event.stopPropagation();
+    e.stopPropagation();
 
     let streams =
         JSON.parse(
@@ -221,9 +222,7 @@ function deleteStream(index){
             ) || "[]"
         );
 
-    streams.splice(
-        index,1
-    );
+    streams.splice(index,1);
 
     localStorage.setItem(
         "streams",
@@ -268,6 +267,23 @@ document.addEventListener(
                 "none";
 
         });
+
+    }
+);
+document
+.getElementById("url")
+.addEventListener(
+    "keypress",
+    function(e){
+
+        if(
+            e.key ===
+            "Enter"
+        ){
+
+            playInput();
+
+        }
 
     }
 );
