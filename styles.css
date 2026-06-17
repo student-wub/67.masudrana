@@ -16,17 +16,15 @@ body{
     width:100%;
     height:100vh;
     padding:10px;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
 }
 
 .player-box{
     position:relative;
-    height:78vh;
-    overflow:hidden;
-    border-radius:15px;
+    width:100%;
+    height:85vh;
     background:#000;
+    border-radius:15px;
+    overflow:hidden;
 }
 
 video{
@@ -36,155 +34,8 @@ video{
     background:#000;
 }
 
-.url-box{
-    margin-top:15px;
-    display:flex;
-    gap:10px;
-}
+/* Overlay Buttons */
 
-.url-box input{
-    flex:1;
-    padding:10px;
-    border:none;
-    border-radius:10px;
-    background:#1b2030;
-    color:white;
-    outline:none;
-    font-size:14px;
-}
-
-.url-box button{
-    padding:10px 16px;
-    border:none;
-    border-radius:10px;
-    background:#3b82f6;
-    color:white;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.url-box button:hover{
-    opacity:.9;
-}
-
-.card-row{
-    display:flex;
-    gap:12px;
-    margin-top:15px;
-    overflow-x:auto;
-    overflow-y:hidden;
-    padding-bottom:5px;
-}
-
-.card-row::-webkit-scrollbar{
-    height:8px;
-}
-
-.card-row::-webkit-scrollbar-thumb{
-    background:#2f3547;
-    border-radius:20px;
-}
-
-.card{
-    width:60px;
-    min-width:60px;
-    height:60px;
-
-    background:#171b26;
-    border:1px solid #2a2f3d;
-    border-radius:10px;
-
-    position:relative;
-    cursor:pointer;
-
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-}
-.card:hover{
-    transform:translateY(-3px);
-}
-
-.card-icon{
-    font-size:20px;
-}
-.card-title{
-    font-size:10px;
-    margin-top:4px;
-}
-
-.menu-btn{
-    position:absolute;
-    top:8px;
-    right:8px;
-    background:none;
-    border:none;
-    color:#fff;
-    font-size:20px;
-    cursor:pointer;
-}
-
-.dropdown{
-    display:none;
-    position:absolute;
-    top:35px;
-    right:8px;
-    background:#22293a;
-    border-radius:10px;
-    overflow:hidden;
-    z-index:10;
-    min-width:100px;
-}
-
-.dropdown button{
-    width:100%;
-    border:none;
-    background:none;
-    color:white;
-    padding:10px;
-    cursor:pointer;
-    text-align:left;
-}
-
-.dropdown button:hover{
-    background:#31384d;
-}
-
-@media(max-width:600px){
-
-    .header h1{
-        font-size:22px;
-    }
-
-    .url-box{
-        flex-direction:column;
-    }
-
-    .url-box button{
-        width:100%;
-    }
-
- .card{
-    width:80px;
-    min-width:80px;
-    height:80px;
-}
-
-}
-.toggle-menu{
-    width:120px;
-    padding:10px;
-    background:#2563eb;
-    color:white;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-}
-
-#menuArea{
-    display:none;
-}
 .overlay-menu{
     position:absolute;
     bottom:15px;
@@ -197,20 +48,184 @@ video{
 }
 
 .overlay-btn{
-    width:40px;
-    height:40px;
+    width:42px;
+    height:42px;
 
     border:none;
     border-radius:50%;
 
     background:rgba(0,0,0,.5);
-    color:white;
+    color:#fff;
 
+    font-size:18px;
     cursor:pointer;
 
     backdrop-filter:blur(10px);
 }
 
+/* URL Box */
+
 .url-box{
     display:none;
+
+    margin-top:10px;
+    gap:10px;
+}
+
+.url-box input{
+    flex:1;
+
+    padding:10px;
+
+    border:none;
+    border-radius:10px;
+
+    background:#1b2030;
+    color:white;
+
+    outline:none;
+}
+
+.url-box button{
+    padding:10px 15px;
+
+    border:none;
+    border-radius:10px;
+
+    background:#2563eb;
+    color:white;
+
+    cursor:pointer;
+}
+
+/* Card Area */
+
+#menuArea{
+    display:none;
+}
+
+.card-row{
+    display:flex;
+    gap:8px;
+
+    margin-top:10px;
+
+    overflow-x:auto;
+    overflow-y:hidden;
+
+    padding-bottom:5px;
+}
+
+.card-row::-webkit-scrollbar{
+    height:4px;
+}
+
+.card-row::-webkit-scrollbar-thumb{
+    background:#444;
+    border-radius:10px;
+}
+
+.card{
+    width:60px;
+    min-width:60px;
+    height:60px;
+
+    background:#171b26;
+
+    border:1px solid #2a2f3d;
+    border-radius:10px;
+
+    position:relative;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    cursor:pointer;
+}
+
+.card:hover{
+    transform:scale(1.05);
+}
+
+.card-icon{
+    font-size:20px;
+}
+
+.card-title{
+    font-size:10px;
+    margin-top:3px;
+}
+
+.menu-btn{
+    position:absolute;
+    top:2px;
+    right:2px;
+
+    border:none;
+    background:none;
+
+    color:white;
+    cursor:pointer;
+
+    font-size:14px;
+}
+
+.dropdown{
+    display:none;
+
+    position:absolute;
+
+    top:20px;
+    right:0;
+
+    min-width:90px;
+
+    background:#22293a;
+
+    border-radius:8px;
+
+    overflow:hidden;
+
+    z-index:999;
+}
+
+.dropdown button{
+    width:100%;
+
+    border:none;
+    background:none;
+
+    color:white;
+
+    padding:8px;
+
+    text-align:left;
+
+    cursor:pointer;
+}
+
+.dropdown button:hover{
+    background:#31384d;
+}
+
+/* Mobile */
+
+@media(max-width:600px){
+
+    .player-box{
+        height:88vh;
+    }
+
+    .card{
+        width:55px;
+        min-width:55px;
+        height:55px;
+    }
+
+    .card-title{
+        font-size:9px;
+    }
+
 }
