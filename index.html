@@ -3,73 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Stream Player - VLC Style</title>
-    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css">
+    <title>67 Live Stream</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>📡 Live Stream Player</h1>
-            <p class="subtitle">Paste your stream link and watch like VLC</p>
-        </header>
 
-        <div class="control-panel">
-            <div class="input-group">
-                <input 
-                    type="text" 
-                    id="streamUrl" 
-                    class="stream-input"
-                    placeholder="Paste your HLS, DASH, or video link here... (e.g., https://example.com/stream.m3u8)"
-                    autocomplete="off"
-                >
-                <button id="playBtn" class="play-btn">▶ PLAY</button>
+    <header class="header">
+        <h1>67 Live Stream</h1>
+    </header>
+
+    <main class="container">
+
+        <!-- Video Player -->
+        <section class="player-section">
+            <video id="video" controls autoplay playsinline></video>
+        </section>
+
+        <!-- Stream URL -->
+        <section class="stream-box">
+            <input
+                type="text"
+                id="streamUrl"
+                placeholder="Paste M3U8 URL here">
+
+            <button id="playBtn">
+                Play
+            </button>
+        </section>
+
+        <!-- Playlist Upload -->
+        <section class="upload-box">
+            <input
+                type="file"
+                id="playlistFile"
+                accept=".m3u,.m3u8">
+        </section>
+
+        <!-- Channel Row -->
+        <section class="channel-wrapper">
+            <h2>Channels</h2>
+
+            <div id="channelRow" class="channel-row">
+
+                <!-- Example Channel -->
+                <div class="channel-card">
+                    <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/TV_icon.svg/512px-TV_icon.svg.png"
+                        alt="Logo">
+
+                    <span>Demo</span>
+                </div>
+
             </div>
-            <div class="url-examples">
-                <small>💡 Supports: HLS (.m3u8), DASH (.mpd), MP4, WebM, OGG</small>
-            </div>
-        </div>
+        </section>
 
-        <div class="player-wrapper">
-            <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="100%">
-                <p class="vjs-no-js">
-                    To view this video please enable JavaScript, and consider upgrading to a web browser that
-                    <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-                </p>
-            </video>
-        </div>
+    </main>
 
-        <div class="info-panel">
-            <div class="status">
-                <span class="status-label">Status:</span>
-                <span id="statusText" class="status-value">Ready</span>
-            </div>
-            <div class="stream-info">
-                <div id="streamDetails"></div>
-            </div>
-        </div>
-
-        <div class="features">
-            <h3>Features</h3>
-            <ul>
-                <li>✓ Play HLS Live Streams</li>
-                <li>✓ DASH Streaming Support</li>
-                <li>✓ Direct MP4/WebM Videos</li>
-                <li>✓ Full Screen Mode</li>
-                <li>✓ Speed Control</li>
-                <li>✓ Volume Control</li>
-                <li>✓ Quality Selection (if available)</li>
-                <li>✓ Picture in Picture</li>
-            </ul>
-        </div>
-
-        <div class="footer">
-            <p>Made with ❤️ for streaming lovers</p>
-        </div>
-    </div>
-
-    <script src="https://vjs.zencdn.net/7.20.3/video.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/videojs-http-streaming@2.16.1/dist/videojs-http-streaming.min.js"></script>
     <script src="script.js"></script>
+
 </body>
 </html>
