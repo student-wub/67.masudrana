@@ -17,7 +17,30 @@
         <div class="player-box">
             <video id="video" controls autoplay playsinline></video>
         </div>
+<button id="toggleMenu" class="toggle-menu">
+    ▼ Menu
+</button>
 
+<div id="menuArea">
+
+    <div class="url-box">
+
+        <input
+            type="text"
+            id="url"
+            placeholder="Paste M3U8 URL">
+
+        <button onclick="playInput()">
+            ▶ Play
+        </button>
+
+    </div>
+
+    <div id="cards"
+         class="card-row">
+    </div>
+
+</div>
         <!-- URL Input -->
         <div class="url-box">
 
